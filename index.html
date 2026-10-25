@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>特斯拉 TSLA Q3'26 财报深度分析</title>
+<style>
+  :root{
+    --navy:#16243f; --navy2:#1f3357; --gold:#c9a227; --gold-soft:#e7d9a8;
+    --ink:#1d2733; --muted:#5b6776; --line:#e3e8ef;
+    --red:#d8392f; --redbg:#fdecea; --redbd:#f3b6b1;
+    --amber:#d98a00; --amberbg:#fef4e3; --amberbd:#f3d39a;
+    --green:#2e9e5b; --greenbg:#e8f6ee; --greenbd:#b6e3c8;
+    --bg:#eef1f5; --card:#ffffff; --shadow:0 4px 18px rgba(22,36,63,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+    color:var(--ink); background:var(--bg); line-height:1.75; font-size:15px;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{display:flex;max-width:1280px;margin:0 auto;gap:28px;padding:0 22px 80px}
+
+  /* ---------- Sidebar TOC ---------- */
+  .toc{position:sticky;top:24px;align-self:flex-start;width:230px;flex:0 0 230px;
+    background:var(--card);border-radius:14px;padding:20px 16px;box-shadow:var(--shadow);
+    max-height:calc(100vh - 48px);overflow:auto}
+  .toc h4{font-size:12px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:12px}
+  .toc a{display:block;padding:7px 10px;border-radius:8px;color:var(--muted);font-size:13.5px;
+    border-left:3px solid transparent;transition:.18s}
+  .toc a:hover{background:#f4f6fa;color:var(--ink)}
+  .toc a.active{background:#f1f5fb;color:var(--navy);border-left-color:var(--gold);font-weight:600}
+  .toc .sub{padding-left:22px;font-size:12.5px}
+
+  /* ---------- Main ---------- */
+  .main{flex:1;min-width:0}
+  .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 60%,#243a63 100%);
+    color:#fff;border-radius:18px;padding:42px 40px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+  .hero::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;
+    background:radial-gradient(circle,rgba(201,162,39,.35),transparent 70%);border-radius:50%}
+  .eyebrow{color:var(--gold-soft);font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+  .hero h1{font-family:"Noto Serif SC","Songti SC",serif;font-size:34px;line-height:1.25;margin:12px 0 8px;font-weight:800}
+  .hero .sub{font-size:16px;color:#cdd7e6;font-weight:300}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;position:relative;z-index:1}
+  .meta .chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+    padding:6px 13px;border-radius:999px;font-size:12.5px;color:#e6ecf5;backdrop-filter:blur(4px)}
+  .meta .chip b{color:var(--gold-soft)}
+
+  section{background:var(--card);border-radius:16px;padding:30px 32px;margin-top:22px;box-shadow:var(--shadow)}
+  .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--line)}
+  .sec-head .num{background:var(--navy);color:#fff;font-size:13px;font-weight:700;width:30px;height:30px;
+    border-radius:8px;display:flex;align-items:center;justify-content:center;flex:0 0 30px}
+  .sec-head h2{font-size:21px;font-weight:800;color:var(--navy)}
+  .sec-head .stars{margin-left:auto;color:var(--gold);font-size:13px;letter-spacing:1px}
+  h3{font-size:16.5px;color:var(--navy2);margin:24px 0 12px;font-weight:700;display:flex;align-items:center;gap:8px}
+  h3 .dot{width:8px;height:8px;border-radius:50%;background:var(--gold)}
+  p{margin:10px 0;color:#33414f}
+
+  /* verdict banner */
+  .verdict{border-radius:14px;padding:22px 26px;margin:6px 0 18px;
+    background:linear-gradient(135deg,#fdecea,#fff3f1);border:1px solid var(--redbd)}
+  .verdict .tag{display:inline-block;background:var(--red);color:#fff;font-weight:700;font-size:13px;
+    padding:4px 14px;border-radius:999px;letter-spacing:.05em}
+  .verdict h3{margin:12px 0 6px;color:var(--red);font-size:18px}
+  .verdict p{color:#5a2b27;margin:6px 0}
+
+  /* metric cards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:16px 0}
+  .card{border:1px solid var(--line);border-radius:13px;padding:18px 18px 16px;position:relative;background:#fff;
+    border-top:4px solid var(--line)}
+  .card.red{border-top-color:var(--red)}
+  .card.amber{border-top-color:var(--amber)}
+  .card.green{border-top-color:var(--green)}
+  .card .label{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+  .card .val{font-size:30px;font-weight:800;color:var(--navy);margin:6px 0 2px;line-height:1.1}
+  .card .val small{font-size:14px;font-weight:600;color:var(--muted)}
+  .card .note{font-size:12px;color:var(--muted);margin-top:4px}
+  .card .sev{position:absolute;top:14px;right:14px;font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px}
+  .sev.red{background:var(--redbg);color:var(--red)}
+  .sev.amber{background:var(--amberbg);color:var(--amber)}
+  .sev.green{background:var(--greenbg);color:var(--green)}
+
+  /* key points */
+  .keypoints{list-style:none;counter-reset:k}
+  .keypoints li{counter-increment:k;position:relative;padding:12px 16px 12px 50px;margin:10px 0;
+    background:#f8fafc;border-left:4px solid var(--gold);border-radius:0 10px 10px 0;font-size:14.5px}
+  .keypoints li::before{content:counter(k);position:absolute;left:14px;top:12px;width:24px;height:24px;
+    background:var(--navy);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:700}
+  .keypoints b{color:var(--navy)}
+
+  /* tables */
+  .tbl-wrap{overflow-x:auto;margin:14px 0;border-radius:12px;border:1px solid var(--line)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px}
+  thead th{background:var(--navy);color:#fff;text-align:left;padding:11px 14px;font-weight:600;font-size:13px;
+    white-space:nowrap}
+  tbody td{padding:10px 14px;border-top:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:#f8fafc}
+  tbody tr:hover{background:#f1f5fb}
+  td .em{font-weight:700;color:var(--navy)}
+  td.red{color:var(--red);font-weight:700}
+  td.amber{color:var(--amber);font-weight:700}
+  td.green{color:var(--green);font-weight:700}
+
+  /* badges */
+  .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+  .badge.red{background:var(--redbg);color:var(--red)}
+  .badge.amber{background:var(--amberbg);color:var(--amber)}
+  .badge.green{background:var(--greenbg);color:var(--green)}
+  .badge.navy{background:#e7eefb;color:var(--navy)}
+
+  /* bar chart */
+  .chart{margin:18px 0;background:#fafbfd;border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+  .chart .ctitle{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:14px;letter-spacing:.03em}
+  .bar-row{display:flex;align-items:center;gap:12px;margin:9px 0}
+  .bar-row .blab{width:118px;flex:0 0 118px;font-size:13px;color:var(--ink);text-align:right}
+  .bar-row .btrack{flex:1;background:#eef1f5;border-radius:6px;height:22px;position:relative;overflow:hidden}
+  .bar-row .bfill{height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;
+    padding-right:8px;color:#fff;font-size:12px;font-weight:700;transition:width 1s}
+  .bfill.red{background:linear-gradient(90deg,#e0584f,var(--red))}
+  .bfill.amber{background:linear-gradient(90deg,#e7a83f,var(--amber))}
+  .bfill.navy{background:linear-gradient(90deg,#39527e,#16243f)}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:var(--muted)}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+  /* light strip */
+  .lights{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+  .light{display:flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid var(--line);
+    border-radius:10px;padding:8px 14px;font-size:13px;font-weight:600}
+  .light .ld{width:14px;height:14px;border-radius:50%}
+  .ld.red{background:var(--red);box-shadow:0 0 0 4px var(--redbg)}
+  .ld.amber{background:var(--amber);box-shadow:0 0 0 4px var(--amberbg)}
+  .ld.green{background:var(--green);box-shadow:0 0 0 4px var(--greenbg)}
+
+  /* callouts */
+  .note-box{background:#f4f7fb;border:1px solid #d8e2f0;border-left:4px solid var(--navy);
+    border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;font-size:14px}
+  .warn-box{background:var(--amberbg);border:1px solid var(--amberbd);border-left:4px solid var(--amber);
+    border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;font-size:14px}
+  .quote{background:#f8fafc;border-left:4px solid var(--gold);padding:14px 20px;margin:16px 0;
+    font-size:15px;color:var(--navy2);font-style:italic;border-radius:0 10px 10px 0}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:900px){.two-col{grid-template-columns:1fr}.toc{display:none}}
+
+  /* footer */
+  .foot{margin-top:22px;background:#fff;border-radius:16px;padding:24px 32px;box-shadow:var(--shadow);
+    font-size:12.5px;color:var(--muted);border-top:4px solid var(--gold)}
+  .foot b{color:var(--navy)}
+  .disclaimer{background:var(--redbg);border:1px solid var(--redbd);border-radius:12px;padding:16px 20px;margin-top:14px;
+    font-size:13px;color:#6b332e}
+  #toTop{position:fixed;right:26px;bottom:26px;width:46px;height:46px;border-radius:50%;background:var(--navy);
+    color:#fff;border:none;cursor:pointer;font-size:20px;box-shadow:var(--shadow);opacity:0;visibility:hidden;transition:.3s;z-index:50}
+  #toTop.show{opacity:1;visibility:visible}
+  @media print{
+    body{background:#fff}.toc{display:none}section,.hero,.foot{box-shadow:none;break-inside:avoid}
+    #toTop{display:none}.wrap{display:block;max-width:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- TOC -->
+  <nav class="toc">
+    <h4>目录导航</h4>
+    <a href="#s0">〇、一句话结论</a>
+    <a href="#s1">一、财报速览</a>
+    <a href="#s1" class="sub">1.2 三个"坑"</a>
+    <a href="#s2">二、八大业务板块</a>
+    <a href="#s2" class="sub">2.2 订单与需求</a>
+    <a href="#s3">三、经营问题与风险</a>
+    <a href="#s4">四、板块内水平与前景</a>
+    <a href="#s5">五、SpaceX 合并</a>
+    <a href="#s6">六、机构与资金</a>
+    <a href="#s7">七、当前估值对比</a>
+    <a href="#s8">八、未来 1-2 年</a>
+    <a href="#s9">九、数据口径与风险</a>
+    <a href="#s10">附：用户 8 问速查</a>
+  </nav>
+
+  <div class="main">
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="eyebrow">股哥·投研部 · 内部研究参考</div>
+      <h1>特斯拉 TSLA Q3'26 财报深度分析</h1>
+      <div class="sub">营收零增长、利润腰斩、估值极端昂贵 —— 一份写给普通股民的季度体检</div>
+      <div class="meta">
+        <span class="chip">报告时间 <b>2026-10-25</b></span>
+        <span class="chip">财报发布 <b>2026-10-21 盘后</b></span>
+        <span class="chip">数据截止 <b>10-23 收盘 $372.22</b></span>
+        <span class="chip">来源 <b>SEC 8-K / 10-Q</b></span>
+      </div>
+    </header>
+
+    <!-- 〇、一句话结论 -->
+    <section id="s0">
+      <div class="sec-head"><span class="num">〇</span><h2>一句话结论</h2></div>
+      <div class="verdict">
+        <span class="tag">核心判断</span>
+        <h3>不是卖不动，是花钱太猛、钱没变成收入</h3>
+        <p>营收 280.46 亿（零增长 -0.2%），毛利率改善 160bp，却被营业费用 +39.2% 吞得一干二净，营业利润 -55.8%、OPM 仅 2.56%。汽车主业单车经济性在变好（已是防守盘），真正增长的是 FSD 订阅与储能订单，但两者撑不起 1.47 万亿市值。<b>公司不会出事，但即便成功也可能不够。</b></p>
+      </div>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>用户最关心的问题</th><th>明确回答</th><th>量化</th><th>依据</th></tr></thead>
+        <tbody>
+          <tr><td>这季是卖不动吗？</td><td>🟡 不是卖不动，是花钱太猛且钱没变成收入</td><td>交付 -2.1%、营收 -0.2%</td><td>毛利 +160bp，但 Opex +39.2% 全吃掉</td></tr>
+          <tr><td>汽车主业还好吗？</td><td>🟢 单车经济性在变好，但已是防守盘</td><td>单车毛利(剔积分) +18.0% 至 $7,590</td><td>全球纯电从第一跌到第二，中国 NEV 排第 4</td></tr>
+          <tr><td>现在能买吗？</td><td>🔴 估值已无安全边际</td><td>GAAP PE 408.95x，Forward PE 83.7% 分位</td><td>股价 31.0% 分位是假便宜，市值 89% 是期权价值</td></tr>
+          <tr><td>SpaceX 合并怎么看？</td><td>🔴 按概率加权为负期望</td><td>完成 20%，不合并/拖延 45%</td><td>合并溢价仅占 1%-2%，但下行是单点触发</td></tr>
+          <tr><td>机构买不买账？</td><td>🟡 买账但只买叙事，且买在财报之前</td><td>BlackRock 214.1M 股 / $900.6 亿 / 占总股本 5.42%</td><td>Q2'26 仍增持 +2.90%；卖方上调营收 EPS 却下调净利 FCF</td></tr>
+          <tr><td>公司在增长吗？</td><td>🟡 只有小部分在长，且撑不起市值</td><td>FSD 订阅 +67.3%，储能订单历史新高</td><td>两者体量合计仍撑不起 1.47 万亿市值</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p><b>估值上的核心矛盾：</b>股价在 52 周区间 31.0% 分位（看起来便宜），Forward P/E 却在 83.7% 分位、GAAP PE(TTM) 408.95x（极度昂贵）——便宜的只是股价，不是估值倍数。</p>
+      <p><b>SpaceX 合并：</b>完全完成仅 20% 概率，不合并或拖延合计 45%，按概率加权对 TSLA 是负期望值，而市场仍按"合并要成"定价。</p>
+    </section>
+
+    <!-- 一、财报速览 -->
+    <section id="s1">
+      <div class="sec-head"><span class="num">1</span><h2>财报速览：核心数据 + 三个必须看懂的"坑"</h2></div>
+      <p><b>结论：毛利率在改善，但改善全部被费用吃掉，营业利润腰斩。</b></p>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>项目</th><th>Q3'26</th><th>Q3'25</th><th>同比 / 来源</th></tr></thead>
+        <tbody>
+          <tr><td>总营收</td><td>$28,046M</td><td>$28,095M</td><td class="red">-0.2%｜8-K EX-99.1</td></tr>
+          <tr><td>总毛利</td><td>$5,494M</td><td>$5,054M</td><td class="green">+8.7%｜8-K</td></tr>
+          <tr><td>GAAP 毛利率</td><td>19.59%</td><td>17.99%</td><td class="green">+160bp｜8-K</td></tr>
+          <tr><td>营业费用合计</td><td>$4,776M</td><td>$3,430M</td><td class="red">+39.2%｜8-K</td></tr>
+          <tr><td>营业利润</td><td>$718M</td><td>$1,624M</td><td class="red">-55.8%｜8-K</td></tr>
+          <tr><td>营业利润率 OPM</td><td>2.56%</td><td>5.78%</td><td class="red">-322bp｜8-K</td></tr>
+          <tr><td>GAAP 摊薄 EPS</td><td>$0.22</td><td>$0.39</td><td class="red">-43.6%｜8-K</td></tr>
+          <tr><td>non-GAAP EPS</td><td>$0.48</td><td>$0.50</td><td class="red">-4.0%｜8-K</td></tr>
+          <tr><td>研发费用 R&D</td><td>$2,761M</td><td>$1,630M</td><td class="red">+69.4%｜8-K</td></tr>
+          <tr><td>SG&A</td><td>$2,015M</td><td>$1,562M</td><td class="red">+29.0%｜8-K</td></tr>
+          <tr><td>总交付量</td><td>486,532 辆</td><td>497,099 辆</td><td class="red">-2.1%｜8-K Operational Summary</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <h3><span class="dot"></span>1.2 三个"坑"</h3>
+      <p><b>坑一：毛利率改善是好事，但被费用吃干净还倒亏。</b> 毛利 +$440M，营业费用却 +$1,346M（其中 R&D +$1,131M、SG&A +$453M），营业利润净减 $906M。营业费用率 12.21% → 17.03%（+482bp），单项就吃掉全部毛利改善还倒亏。这是教科书级的负经营杠杆。</p>
+      <p><b>坑二：GAAP 与 non-GAAP 的裂口扩大到 $910M</b>（去年同期 $397M，+129%）。主项是股份支付 SBC：单季 $1,165M（+75.7%），占营收 4.15%（去年 2.36%），是 GAAP 净利 $787M 的 1.48 倍。管理层在 R&D 归因里明确写了 "SBC (including 2025 CEO Performance Award)"——CEO 绩效奖的摊销已在压制利润，且将持续 2-4 个季度。</p>
+      <p><b>坑三：现金流的正增长不是利润驱动。</b> 9M'26 经营现金流 +36.2%，但其中应付/应计/其他负债变动 +$3,991M、递延收入 +$1,255M，合计 +$5,246M，占 OCF 的 84%——是供应链占款与客户预付撑起来的。同时 Capex 9M 就花掉 $130 亿（超过 2025 全年约 $112 亿），卖方共识 FY2026 FCF 从 +$62.2 亿转为 -$58.2 亿。</p>
+      <div class="note-box">📌 <b>唯一值得高兴的数字：</b>剔除监管积分的汽车毛利率 18.06%，同比 +268bp；单车毛利（剔积分）+18.0% 至 $7,590。汽车业务本身在变好，问题出在费用端。</div>
+    </section>
+
+    <!-- 二、八大业务板块 -->
+    <section id="s2">
+      <div class="sec-head"><span class="num">2</span><h2>八大业务板块表现与订单情况</h2></div>
+      <p><b>结论：唯一高速增长的是服务/软件（FSD 订阅），储能订单创历史新高但营收负增长，汽车主业零增长靠降价守份额。</b></p>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>业务板块</th><th>营收(M$)</th><th>占比</th><th>同比</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>汽车销售</td><td>20,561</td><td>73.3%</td><td class="red">-0.2%</td><td>零增长，靠降价守份额</td></tr>
+          <tr><td>监管积分收入</td><td>822</td><td>2.9%</td><td class="red">-13.2%</td><td>积分收入下滑，剔积分后主业更好</td></tr>
+          <tr><td>汽车租赁</td><td>503</td><td>1.8%</td><td class="red">-7.1%</td><td>租赁业务同步走弱</td></tr>
+          <tr><td>服务及其他</td><td>1,800</td><td>6.4%</td><td class="green">+18.6%</td><td>FSD 订阅 174 万套(+67.3%)</td></tr>
+          <tr><td>能源发电与存储</td><td>2,890</td><td>10.3%</td><td class="red">-1.2%</td><td>订单创历史新高但营收负增长</td></tr>
+          <tr><td>汽车保险</td><td>1,470</td><td>5.2%</td><td class="green">+9.1%</td><td>随交付量小幅增长</td></tr>
+          <tr><td>其他业务</td><td>$—</td><td>—</td><td>—</td><td>体量过小，忽略</td></tr>
+          <tr><td><b>合计</b></td><td><b>28,046</b></td><td><b>100%</b></td><td class="red">-0.2%</td><td>总营收零增长</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <h3><span class="dot"></span>2.2 订单与需求的真实压力在哪</h3>
+      <p><b>结论：订单端指标比交付端好，但交付端的停滞是真问题，且瓶颈是产能不是需求。</b></p>
+      <div class="quote">📌 管理层给出的核心解释是"电池供应是本季度汽车产量提升的限制因素"（8-K 原文）。这意味着订单积压是产能问题；但风险在于——如果 2027 年产能释放后订单没有如期转化为交付，"四年来最大积压"这个说法就证伪了。<b>这是未来 4 个季度最需要验证的单一变量。</b></div>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>产销量</th><th>Q3'26</th><th>Q3'25</th><th>同比 / 说明</th></tr></thead>
+        <tbody>
+          <tr><td>总交付量</td><td>486,532 辆</td><td>497,099 辆</td><td class="red">-2.1%｜8-K</td></tr>
+          <tr><td>Model 3/Y 交付</td><td>447,401 辆</td><td>469,973 辆</td><td class="red">-4.8%｜主力车型承压</td></tr>
+          <tr><td>其他车型交付</td><td>39,131 辆</td><td>27,126 辆</td><td class="green">+44.3%｜Cybercab/Semi 起量</td></tr>
+          <tr><td>总产量</td><td>497,442 辆</td><td>469,969 辆</td><td class="green">+5.9%｜受电池供应限制</td></tr>
+          <tr><td>汽车收入(M$)</td><td>20,561</td><td>20,601</td><td class="red">-0.2%｜ASP 下降抵消交付量下降</td></tr>
+          <tr><td>单车毛利(剔积分)</td><td>$7,590</td><td>$6,432</td><td class="green">+18.0%｜主业经济性改善</td></tr>
+          <tr><td>剔积分汽车毛利率</td><td>18.06%</td><td>15.38%</td><td class="green">+268bp｜唯一亮点</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- 三、经营问题与风险 -->
+    <section id="s3">
+      <div class="sec-head"><span class="num">3</span><h2>经营上的问题与风险</h2></div>
+      <p><b>结论：确实有明确问题，但定性不是"卖不动"，而是"花钱太猛且钱没有变成收入"。</b></p>
+      <div class="warn-box">⚠️ <b>风险定性：</b>这不是"公司会失败"，而是"公司成功也可能不够"——流动性零风险，但估值上已无安全边际（见第七章）。</div>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>风险 / 阈值</th><th>等级</th><th>数值 / 概率</th><th>含义与观察窗口</th></tr></thead>
+        <tbody>
+          <tr><td>SpaceX 完全合并完成</td><td>🔴</td><td>20%</td><td>不合并或拖延合计 45%；按概率加权为负期望</td></tr>
+          <tr><td>FCF 由正转负</td><td>🔴</td><td>-$58.2 亿 (FY26E)</td><td>Consensus 自相矛盾：上调营收 EPS、下调净利 FCF</td></tr>
+          <tr><td>SBC 占营收比</td><td>🔴</td><td>4.15%（去年 2.36%）</td><td>单季 $1,165M，是 GAAP 净利的 1.48 倍</td></tr>
+          <tr><td>营业费用率</td><td>🟡</td><td>17.03% (+482bp)</td><td>负经营杠杆，吞噬全部毛利改善</td></tr>
+          <tr><td>订单转交付验证</td><td>🟡</td><td>未来 4 个季度</td><td>电池供应是瓶颈；若产能释放后订单不兑现则证伪</td></tr>
+          <tr><td>CEO 绩效奖摊销</td><td>🟡</td><td>持续 2-4 个季度</td><td>将继续压制 GAAP 利润</td></tr>
+          <tr><td>中国 NEV 需求</td><td>🟡</td><td>9 月 -16.7%</td><td>连续 9 个月负增长，2026 为行业下行年</td></tr>
+          <tr><td>BlackRock Q3'26 13F 方向</td><td>🟡</td><td>2026-11-14 前后申报</td><td>第一大机构股东（5.42%）的季度调仓，最硬单一变量</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- 四、板块内水平与前景 -->
+    <section id="s4">
+      <div class="sec-head"><span class="num">4</span><h2>主营业务在板块内处于什么水平、有没有前景</h2></div>
+      <p><b>结论：汽车主业已是"防守盘"而非"增长盘"——全球纯电从第一跌到第二，中国 NEV 排第 4，前景看其他板块。</b></p>
+      <h3><span class="dot"></span>4.2 护城河总评</h3>
+      <div class="quote">"守不住的是现在赚钱的，值钱的是还没赚钱的。"</div>
+      <h3><span class="dot"></span>4.3 前景判断</h3>
+      <p><b>核心矛盾：</b>唯一"确定在增长"的板块（储能）体量只有 10.3%，而体量最大的板块（汽车 73.3%）已经零增长。</p>
+      <ul class="keypoints">
+        <li><b>汽车主业</b>要恢复成长必须同时满足：① Model Y 改款后重新获得定价权（不靠降价）；② 在中国 NEV 继续收缩的背景下逆势提升份额。<b>Q3'26 两条都不成立。</b> 1-2 年内汽车主业的合理定位是稳定贡献 200 亿美元级营收与正毛利，为其他板块输血。</li>
+        <li><b>行业背景：</b>全球 EV 已过 S 曲线最陡段进入分化期，2026 是下行年——中国 9 月 NEV 零售 108.4 万辆同比 -16.7%（连续 9 个月负增长），渗透率 67% 创新高只是分母萎缩的假象。</li>
+        <li><b>周期对冲能力不足：</b>储能是唯一真正的逆周期对冲资产，但体量 10.3%，不足以对冲汽车 73.3% 的顺周期压力；汽车是强顺周期 + 份额下行（最差位置）。</li>
+      </ul>
+    </section>
+
+    <!-- 五、SpaceX 合并 -->
+    <section id="s5">
+      <div class="sec-head"><span class="num">5</span><h2>SpaceX 合并怎么看</h2></div>
+      <p><b>结论：按概率加权对 TSLA 是负期望值——完全合并完成仅 20%，不合并或拖延合计 45%，而市场仍按"合并要成"定价。</b></p>
+      <h3><span class="dot"></span>5.2 定价层：市场在为什么付钱</h3>
+      <div class="note-box">📌 合并溢价在 TSLA 定价中占比很薄：保守口径 1%-2% 量级（提莫估 1.5%-2.5%、斯维因估 1%-2%，两者方向一致）。所以"合并落空"本身不是这只股票的主要风险，<b>Q3 业绩 + FCF 转负才是</b>。</div>
+      <h3><span class="dot"></span>5.4 真正难的不是反垄断</h3>
+      <p><b>反垄断重叠几乎为零</b>（汽车/能源/软件 vs 发射/卫星通信/AI 算力），唯一实质风险是 AI 算力与 AWS/Azure/GCP 的横向重叠。真正卡住的是三个"非反垄断"障碍：</p>
+      <ul class="keypoints">
+        <li><b>全部股份 50% 的散户投票门槛</b>——马斯克+内部人 28.50%、机构 43.10%，合计 71.6%，要达到全部股份 50% 还需约 8.49 亿股（约 21.5% 流通股）赞成，这一票在散户手里。而"卖掉熟悉的 TSLA、换入 2026 年 6 月才上市、流通股仅 18.9% 的 SPCX"对散户没有吸引力。</li>
+        <li><b>反向并购下的成本基础重置</b>——若 SPCX 为会计购买方，TSLA 股东的成本基础被重置，资本利得税提前实现；两家公司不存在"同一控制"的法律基础，此项无豁免。</li>
+        <li><b>关联交易公允性</b>——合并前 SpaceX 采购 Megapack 已占 TSLA 能源营收 7.7%，10-Q 只披露金额不披露定价基准；合并后变为内部交易，价格公允性成核心争点。</li>
+      </ul>
+      <div class="warn-box">⚠️ <b>下行不对称：</b>合并的下行风险（委员会否决）是单点触发（无需理由、无需投票，4 位独立董事说"不"即终止），上行则是多步流程（委员会推荐 → 条款达成 → 董事会议案 → 全部股份 50% 多数 → 监管审批）。推演总耗时 12-20 个月（2026-10 → 2028 上半年）。</div>
+    </section>
+
+    <!-- 六、机构与资金 -->
+    <section id="s6">
+      <div class="sec-head"><span class="num">6</span><h2>机构和资金买不买账</h2></div>
+      <p>结论：买账，但只买叙事；而且买的是财报之前就买好的。⭐ BlackRock 作为全球第一大机构股东（214.1M 股 / $900.6 亿 / 占总股本 5.42%）Q2'26 仍在净增持 +2.90%，"机构买账"比初稿判断更确凿——但方向仍不可读，11 月 13F 窗口是硬变量。</p>
+      <h3><span class="dot"></span>6.2 最关键的一条证据：共识修正自相矛盾</h3>
+      <div class="note-box">📌 <b>卖方上调了营收和 EPS，却下调了营业利润、净利和自由现金流。</b> 翻译成人话："我们相信特斯拉能卖出更多东西（Robotaxi/储能/FSD 订阅确实在涨），但不相信它能赚到钱。"这就是"只买叙事"的定量证据。</div>
+      <div class="warn-box">⚠️ 另需注意：Bloomberg（10-24）报道管理层把 2026 全年 Capex 指引下调至约 $200 亿，机构读成"Capex 纪律改善（短期利多 FCF）+ AI 野心受挫（长期利空叙事）"，净效应混合偏空。</div>
+      <div class="quote">追一句最诚实的表述：财报后 TSLA 从 10/20 基准算只跌 0.40%，相对大盘是抗跌的——"机构不认账"在股价上并不成立；真正的信号是研究端的冷（零评级上调、Hold 扩大）和共识修正的方向分裂。</div>
+      <h3><span class="dot"></span>6.3 ⭐⭐⭐ BlackRock 是全球第一大机构股东</h3>
+      <p>先纠正一个根因误读：初稿把 BlackRock 列为"13F-NT → 持仓未获取到"，该结论已推翻。BlackRock 的 6 个旧申报主体自 2025Q1 起集体转为 13F-NT，而 BLACKROCK ADVISORS LLC 的 NT 封面明确写明实际申报主体已合并至 BlackRock, Inc.。这是"申报主体重构"，不是"清仓"。</p>
+      <div class="note-box">📌 <b>BlackRock TSLA 持仓四季轨迹（普通股口径，不含期权）：</b>新主体的 13F-HR 已解析，股数与市值逐行与 SEC 原始 XML 精确匹配。</div>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>报告期</th><th>普通股股数</th><th>市值</th><th>环比变动</th><th>占总股本</th></tr></thead>
+        <tbody>
+          <tr><td>Q3'25</td><td>206,739,699</td><td>$919.4 亿</td><td>—</td><td>5.23%</td></tr>
+          <tr><td>Q4'25</td><td>209,563,808</td><td>$942.5 亿</td><td>+2,824,109</td><td>5.31%</td></tr>
+          <tr><td>Q1'26</td><td>208,095,009</td><td>$773.6 亿</td><td>−1,468,799</td><td>5.27%</td></tr>
+          <tr><td><b>Q2'26</b></td><td><b>214,123,129</b></td><td><b>$900.6 亿</b></td><td><b>+6,028,120（+2.90%）</b></td><td><b>5.42%</b></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="note-box">📌 <b>BlackRock TSLA 期权（Call）头寸：</b>期权名义占普通股比例极低，非方向性押注。</div>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>报告期</th><th>期权名义股数</th><th>期权市值</th><th>行数</th></tr></thead>
+        <tbody>
+          <tr><td>Q3'25</td><td>131,400</td><td>$58.44 M</td><td>9</td></tr>
+          <tr><td>Q4'25</td><td>493,700</td><td>$222.03 M</td><td>10</td></tr>
+          <tr><td>Q1'26</td><td>33,700</td><td>$12.53 M</td><td>9</td></tr>
+          <tr><td><b>Q2'26</b></td><td><b>98,800</b></td><td><b>$41.56 M</b></td><td><b>8</b></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="warn-box">⚠️ 期权名义 98,800 股，仅占普通股 0.046% → 非方向性押注（对比 Soros：Q2'26 申报 Call 188 笔 + Put 196 笔，Put 名义为 Call 的 6.22 倍，是多空双向的波动率押注，方向不可读）。</div>
+      <ul class="keypoints">
+        <li><b>① BlackRock 是 TSLA 全球第一大机构股东</b> —— 214.1M 股 / $900.6 亿 / 占总股本 5.42% / 占流通股 7.59%，是 State Street（2.97%）的 1.8 倍、FMR（1.01%）的 5.4 倍。"State Street 是最大机构股东"是常识性误判。</li>
+        <li><b>② "被动资金无信号"要修正</b> —— BlackRock 在 Q1'26 刚减 147 万股后，Q2 立刻回补并创区间新高，连续四季把仓位锁在总股本 5.2%-5.4% 窄区间。</li>
+        <li><b>③ 筹码结构逻辑</b> —— BlackRock 5.42% + State Street 2.97% + FMR 1.01% ≈ 总股本 9.40%，叠加内部人 28.5%，TSLA 自由流通盘高度机构化 → 真实抛压更可能来自 5% 级股东在 13F 窗口的季度调仓，而非基本面。</li>
+      </ul>
+      <div class="note-box">📌 <b>诚实标注：</b>BlackRock 的被动指数产品与主动产品混在同一张 13F 信息表，investmentDiscretion 字段无法拆分——13F 本身无法区分增持是 AUM 增长的被动结果还是主动超配，这是制度性局限，不应写成方向性结论。方向能确认的是：连续四季锁仓、Q2 回到上沿。</div>
+      <div class="quote">⏱ 11 月的 Q3'26 13F 是最硬的单一变量——它一家机构的季度调仓就能撬动 TSLA 的边际筹码。</div>
+    </section>
+
+    <!-- 七、估值对比 -->
+    <section id="s7">
+      <div class="sec-head"><span class="num">7</span><h2>当前估值跟历史相比</h2></div>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>指标</th><th>数值</th><th>说明 / 含义</th></tr></thead>
+        <tbody>
+          <tr><td>股价（10-23 收盘）</td><td>$372.22</td><td>52 周区间 31.0% 分位，股价看似便宜</td></tr>
+          <tr><td>总市值</td><td>$1.47 万亿</td><td>其中约 89% 是尚未产生实质收入业务的期权价值</td></tr>
+          <tr><td>GAAP PE (TTM)</td><td>408.95x</td><td class="red">极度昂贵；GAAP 净利仅 $787M</td></tr>
+          <tr><td>Forward P/E 分位</td><td>83.7%</td><td>估值倍数并不便宜</td></tr>
+          <tr><td>股价 52 周分位</td><td>31.0%</td><td>与估值分位背离是核心矛盾</td></tr>
+          <tr><td>FY2026 FCF 共识</td><td>-$58.2 亿</td><td>从 +$62.2 亿转负（Capex 9M 已花 130 亿）</td></tr>
+          <tr><td>9M'26 经营现金流</td><td>+36.2%</td><td>其中 84% 来自应付/递延收入变动，非利润驱动</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p><b>结论：估值极度昂贵，且"看起来不贵"是错觉——便宜的是股价，不是估值倍数。</b></p>
+      <h3><span class="dot"></span>7.1 分位背离（本章最关键的一张表）</h3>
+      <p><b>背离的解释：</b>TSLA 的 EPS 分母（盈利）在快速萎缩（TTM 净利 $32.2 亿，-36.7%，EPS $0.91）。股价跌了 15%，但盈利跌得更快，所以 P/E 反而更高了。只要股价横盘而 EPS 继续下滑，P/E 只会更高——这个错觉在未来 6-12 个月内都不会被证伪。</p>
+      <h3><span class="dot"></span>7.3 反向 DCF：现价隐含什么</h3>
+      <div class="note-box">📌 当前 1.47 万亿市值中，约 89% 是市场为"尚未产生实质收入的未来业务"付的期权价值，只有约 11% 能被现有可盈利业务解释。而 Robotaxi（无收入披露）、Optimus（无收入/产量/订单披露）、FSD（已产生收入但毛利率仅 15.94%），短期内能被现金流验证的部分乐观估计不超过 $200-300 亿。</div>
+      <div class="verdict">
+        <span class="tag">估值结论</span>
+        <h3>明确偏贵，且不是"合理"是"极端"</h3>
+        <p>核心风险不是"公司会失败"，而是"公司成功也不够"。</p>
+      </div>
+    </section>
+
+    <!-- 八、未来 1-2 年 -->
+    <section id="s8">
+      <div class="sec-head"><span class="num">8</span><h2>未来 1-2 年发展与增长预测</h2></div>
+      <p><b>结论：基准路径是"苹果时刻"（高增长→成熟），但市场给的是"戴森时刻/合并时刻"的价格——这个错配就是估值风险的全部来源。</b></p>
+      <p>路径定性：TSLA 正走在"苹果时刻"的路上（汽车零增长 + 利润被费用吞噬），概率 45%；"戴森时刻"（重开 30%+ 增长）20%；"合并时刻"20%；其他 15%。</p>
+      <h3><span class="dot"></span>8.3 兑现当前估值的必要条件（按重要性排序）</h3>
+      <ul class="keypoints">
+        <li><b>交付量从 195 万 → 350-400 万辆</b>（4-5 年 CAGR 16-19%），且电池供应不成为瓶颈</li>
+        <li><b>FCF 修复</b>：从 FY2026 共识 -$58.2 亿转正并持续扩大</li>
+        <li><b>Robotaxi 从 1 城扩到 10+ 城</b>（当前 vs Waymo 12+ 城）</li>
+        <li><b>合并落地或明确搁置</b>（消除 45% 的反向预期差）</li>
+        <li><b>锂价回落</b>，成本端不再逆风</li>
+      </ul>
+      <div class="warn-box">⚠️ 若 1、2 在 2027 年未达成 → 174.6x Forward P/E 无支撑，估值向历史区间下沿回归。</div>
+    </section>
+
+    <!-- 九、数据口径与风险 -->
+    <section id="s9">
+      <div class="sec-head"><span class="num">9</span><h2>数据口径说明与风险提示</h2></div>
+      <h3><span class="dot"></span>9.2 三个数据缺口（显式声明）</h3>
+      <ul class="keypoints">
+        <li><b>二手车价格指数未采到</b>——无法用二手车价格交叉验证终端降价压力</li>
+        <li><b>交付等待周期未披露</b>——无法用交期长短验证需求强度</li>
+        <li><b>13F 方向无法拆分</b>——其被动指数产品与主动产品混在同一张 13F 信息表，需等 Q3'26 13F（2026-11-14 前后申报）验证</li>
+        <li><b>2020 年末 / 2022 年熊市底 P/S 精确值未取得</b>——PS 历史分位仅给定性方向</li>
+      </ul>
+      <h3><span class="dot"></span>9.3 风险提示</h3>
+      <ul class="keypoints">
+        <li><b>估值风险（首要）</b>：Forward P/E 174.59x、GAAP PE(TTM) 408.95x、PS 14.21x 均处历史极端分位；市值约 89% 靠未产生收入的未来业务支撑</li>
+        <li><b>费用与现金流风险</b>：R&D +69.4%、Capex +110.5%、共识 FY2026 FCF 转负 -$58.2 亿；2027 年 Austin Fab 折旧 $40-60 亿将开始压毛利</li>
+        <li><b>份额风险</b>：全球 BEV 已被 BYD 超越，差距单季扩大 3.6 倍；中国 NEV 靠 3.2%-4.9% 折让守第 4（份额 6.0%），主力车型 Model Y 失血未止</li>
+        <li><b>兑现风险</b>：Robotaxi 1 城 45 辆 vs Waymo 12+ 城 2,000 万+ 单；Optimus 交付时间表未领先小鹏；中国 FSD 未开售</li>
+        <li><b>治理与关联风险</b>：SpaceX 双向关系 + 合并特别委员会 + 马斯克冲突；合并若构成反向并购，股东成本基础重置</li>
+        <li><b>周期风险</b>：锂价上行推升成本；美国 EV 税收抵免终止后的需求真空；AI 资本开支周期若反转，储能与估值双重受损</li>
+        <li><b>关键人风险</b>：马斯克同时任 TSLA/SPCX 负责人并推动合并，注意力有价格</li>
+      </ul>
+      <div class="disclaimer" style="margin-top:18px;">免责声明：本报告仅供研究参考，<b>不构成投资建议</b>。所有数据来自公开披露文件与市场数据聚合源，已尽力标注来源与缺口。</div>
+    </section>
+
+    <!-- 附：用户 8 问速查 -->
+    <section id="s10">
+      <div class="sec-head"><span class="num">附</span><h2>用户 8 个问题速查</h2></div>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>问题</th><th>一句话回答</th><th>章节</th></tr></thead>
+        <tbody>
+          <tr><td>①</td><td>财报深度评价</td><td>营收零增长，毛利改善被费用吞噬，营业利润 -55.8%；汽车单车经济性在变好，问题在花钱</td><td>一</td></tr>
+          <tr><td>②</td><td>业务板块表现与订单</td><td>汽车 -3.0% 防守；服务 +32.5%（FSD 174 万 +67.3%）最好；储能订单历史新高但营收 -15.6%；订单积压"四年来最大"但受电池产能限制</td><td>二</td></tr>
+          <tr><td>③</td><td>有没有经营问题和风险</td><td>有。不是卖不动，是花钱太猛且钱没变成收入：R&D +69.4%、费用率 +482bp、Capex +110.5%、FCF 共识转负</td><td>三</td></tr>
+          <tr><td>④</td><td>板块内什么水平、有没有前景</td><td>纯电全球第 2（落后 BYD 27.6 万辆）、中国 NEV 第 4（6.0%）、储能系统集成第 1 梯队、FSD 软件第 1、Robotaxi 第 3 名之后；主业是防守盘，前景看储能/FSD/机器人</td><td>四</td></tr>
+          <tr><td>⑤</td><td>怎么看 SpaceX 合并</td><td>完全完成仅 20%，不合并或拖延 45%，按概率加权对 TSLA 是负期望值，市场却按"合并要成"定价；难的不是反垄断，是散户 50% 全部股份门槛、反向并购税负重置、关联交易公允性</td><td>五</td></tr>
+          <tr><td>⑥</td><td>机构和资金买不买账</td><td>买账但只买叙事，且买在财报之前；卖方零评级上调、共识上调营收/EPS 却下调营业利润/净利/FCF；FMR +10.4%、BG +425.8% 全部锁仓 Q2；⭐ BlackRock 为全球第一大机构股东（214.1M 股 / $900.6 亿 / 占总股本 5.42%，Q2'26 仍增持 +2.90%）</td><td>六</td></tr>
+          <tr><td>⑦</td><td>估值跟历史相比</td><td>股价 31.0% 分位但 Forward P/E 83.7% 分位、已超 2020-21 峰值 39%、是 2022 熊市底 7.35 倍；市值 89% 是期权价值</td><td>七</td></tr>
+          <tr><td>⑧</td><td>预测 1-2 年发展与增长</td><td>基准"苹果时刻"（45%），5 情景概率已列；汽车从 195 万辆到 350-400 万辆（CAGR 16-19%）+ FCF 转正 + Robotaxi 扩城 + 合并落地/明确搁置，四项缺一不可</td><td>八</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="foot">
+      <b>一句话总结：</b>特斯拉这一季不是卖不动，是花钱太猛且钱没变成收入；利润腰斩、估值极端昂贵，市值约 89% 是尚未产生收入的未来业务期权价值。公司不会出事，但即便成功也可能不够。<br><br>
+      <b>数据来源：</b>SEC EDGAR 8-K / 10-Q / DEF 14A + stockanalysis.com；整合：投研部助理安妮；数据校验：参谋沃里克（10/10 数字一致，approved）。
+      <div class="disclaimer">免责声明：本报告仅供研究参考，不构成投资建议。所有数据来自公开披露文件与市场数据聚合源，已尽力标注来源与缺口。投资有风险，决策需谨慎。</div>
+    </div>
+
+  </div>
+</div>
+
+<button id="toTop" title="回到顶部">↑</button>
+<script>
+  const toTop=document.getElementById('toTop');
+  window.addEventListener('scroll',()=>{toTop.classList.toggle('show',window.scrollY>500)});
+  toTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  const links=[...document.querySelectorAll('.toc a')];
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){
+      const id='#'+e.target.id;
+      links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')===id));
+    }});
+  },{rootMargin:'-30% 0px -60% 0px'});
+  secs.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
